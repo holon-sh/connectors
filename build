@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")"
+
+graph=9610638129fdeb124af84091698e63d90c0289c2
+intercom=e8272e38d51678d104daffd393b2477fd1d4eafc
+out=site/v1
+
+fetch() {
+  [[ -f .cache/$2 ]] || curl --fail --silent --show-error --location \
+    "https://raw.githubusercontent.com/$1" --output ".cache/$2"
+}
+
+rm -rf site
+mkdir -p "$out" .cache
+fetch "microsoftgraph/msgraph-metadata/$graph/openapi/v1.0/openapi.yaml" "microsoft-graph-$graph.yaml"
+fetch "intercom/Intercom-OpenAPI/$intercom/descriptions/2.14/api.intercom.io.yaml" "intercom-$intercom.yaml"
+ruby microsoft/build.rb ".cache/microsoft-graph-$graph.yaml" "$out"
+python3 intercom/build.py ".cache/intercom-$intercom.yaml" "$out/intercom.yaml"

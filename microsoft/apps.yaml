@@ -1,0 +1,394 @@
+microsoft-outlook-mail:
+  name: Outlook Mail
+  title: Microsoft Outlook Mail
+  about: Read, search, draft, send and organize the signed-in person's Outlook mail through Microsoft Graph.
+  scopes:
+  - Mail.ReadWrite
+  - Mail.Send
+  operations:
+    list_messages:
+      method: get
+      path: "/me/messages"
+      summary: List messages in the signed-in person's mailbox. Narrow with $search, $filter, $top, $select and $orderby.
+    create_draft:
+      method: post
+      path: "/me/messages"
+      summary: Create a draft message.
+    get_message:
+      method: get
+      path: "/me/messages/{message-id}"
+      summary: Get one message by id.
+    update_message:
+      method: patch
+      path: "/me/messages/{message-id}"
+      summary: Update a message, for example mark it read, set categories or edit a draft.
+    delete_message:
+      method: delete
+      path: "/me/messages/{message-id}"
+      summary: Delete a message (moves it to Deleted Items).
+    send_draft:
+      method: post
+      path: "/me/messages/{message-id}/send"
+      summary: Send an existing draft message.
+    reply:
+      method: post
+      path: "/me/messages/{message-id}/reply"
+      summary: Reply to the sender of a message and send it at once.
+    reply_all:
+      method: post
+      path: "/me/messages/{message-id}/replyAll"
+      summary: Reply to everyone on a message and send it at once.
+    forward:
+      method: post
+      path: "/me/messages/{message-id}/forward"
+      summary: Forward a message and send it at once.
+    create_reply_draft:
+      method: post
+      path: "/me/messages/{message-id}/createReply"
+      summary: Create a draft reply to a message.
+    create_reply_all_draft:
+      method: post
+      path: "/me/messages/{message-id}/createReplyAll"
+      summary: Create a draft reply-all to a message.
+    create_forward_draft:
+      method: post
+      path: "/me/messages/{message-id}/createForward"
+      summary: Create a draft forward of a message.
+    move_message:
+      method: post
+      path: "/me/messages/{message-id}/move"
+      summary: Move a message to another mail folder.
+    copy_message:
+      method: post
+      path: "/me/messages/{message-id}/copy"
+      summary: Copy a message to another mail folder.
+    list_attachments:
+      method: get
+      path: "/me/messages/{message-id}/attachments"
+      summary: List a message's attachments.
+    add_attachment:
+      method: post
+      path: "/me/messages/{message-id}/attachments"
+      summary: Add an attachment to a draft message.
+    get_attachment:
+      method: get
+      path: "/me/messages/{message-id}/attachments/{attachment-id}"
+      summary: Get one attachment of a message.
+    send_mail:
+      method: post
+      path: "/me/sendMail"
+      summary: Send a new message in one call.
+    list_mail_folders:
+      method: get
+      path: "/me/mailFolders"
+      summary: List the mailbox's top-level mail folders.
+    create_mail_folder:
+      method: post
+      path: "/me/mailFolders"
+      summary: Create a mail folder.
+    get_mail_folder:
+      method: get
+      path: "/me/mailFolders/{mailFolder-id}"
+      summary: Get one mail folder. Well-known names such as inbox, drafts, sentitems and archive work as the id.
+    list_folder_messages:
+      method: get
+      path: "/me/mailFolders/{mailFolder-id}/messages"
+      summary: List the messages in one mail folder.
+    list_child_folders:
+      method: get
+      path: "/me/mailFolders/{mailFolder-id}/childFolders"
+      summary: List a mail folder's child folders.
+microsoft-outlook-calendar:
+  name: Outlook Calendar
+  title: Microsoft Outlook Calendar
+  about: Read and manage the signed-in person's Outlook calendars and events through Microsoft Graph.
+  scopes:
+  - Calendars.ReadWrite
+  operations:
+    list_calendars:
+      method: get
+      path: "/me/calendars"
+      summary: List the signed-in person's calendars.
+    get_default_calendar:
+      method: get
+      path: "/me/calendar"
+      summary: Get the signed-in person's default calendar.
+    list_events:
+      method: get
+      path: "/me/events"
+      summary: List events in the default calendar. Recurring series are returned as one master event; use the calendar view for occurrences.
+    create_event:
+      method: post
+      path: "/me/events"
+      summary: Create an event in the default calendar.
+    get_event:
+      method: get
+      path: "/me/events/{event-id}"
+      summary: Get one event by id.
+    update_event:
+      method: patch
+      path: "/me/events/{event-id}"
+      summary: Update an event.
+    delete_event:
+      method: delete
+      path: "/me/events/{event-id}"
+      summary: Delete an event.
+    list_event_instances:
+      method: get
+      path: "/me/events/{event-id}/instances"
+      summary: List the occurrences of a recurring event between startDateTime and endDateTime.
+    list_calendar_view:
+      method: get
+      path: "/me/calendarView"
+      summary: List the events, with recurring ones expanded, between startDateTime and endDateTime in the default calendar.
+    list_calendar_events:
+      method: get
+      path: "/me/calendars/{calendar-id}/events"
+      summary: List events in one calendar.
+    create_calendar_event:
+      method: post
+      path: "/me/calendars/{calendar-id}/events"
+      summary: Create an event in one calendar.
+    list_calendar_view_for_calendar:
+      method: get
+      path: "/me/calendars/{calendar-id}/calendarView"
+      summary: List the events between startDateTime and endDateTime in one calendar.
+    accept_event:
+      method: post
+      path: "/me/events/{event-id}/accept"
+      summary: Accept a meeting invitation.
+    decline_event:
+      method: post
+      path: "/me/events/{event-id}/decline"
+      summary: Decline a meeting invitation.
+    tentatively_accept_event:
+      method: post
+      path: "/me/events/{event-id}/tentativelyAccept"
+      summary: Tentatively accept a meeting invitation.
+    cancel_event:
+      method: post
+      path: "/me/events/{event-id}/cancel"
+      summary: Cancel a meeting the signed-in person organized and notify attendees.
+    get_schedule:
+      method: post
+      path: "/me/calendar/getSchedule"
+      summary: Get free/busy availability for people, rooms or lists over a time window.
+    find_meeting_times:
+      method: post
+      path: "/me/findMeetingTimes"
+      summary: Suggest meeting times that work for the given attendees and constraints.
+microsoft-teams:
+  name: Teams
+  title: Microsoft Teams
+  about: Read and post in the signed-in person's Microsoft Teams teams, channels and chats through Microsoft Graph.
+  scopes:
+  - Team.ReadBasic.All
+  - Channel.ReadBasic.All
+  - ChannelMessage.Read.All
+  - ChannelMessage.Send
+  - Chat.ReadWrite
+  - TeamMember.Read.All
+  - OnlineMeetings.ReadWrite
+  operations:
+    list_joined_teams:
+      method: get
+      path: "/me/joinedTeams"
+      summary: List the teams the signed-in person belongs to.
+    get_team:
+      method: get
+      path: "/teams/{team-id}"
+      summary: Get one team.
+    list_team_members:
+      method: get
+      path: "/teams/{team-id}/members"
+      summary: List a team's members.
+    list_channels:
+      method: get
+      path: "/teams/{team-id}/channels"
+      summary: List a team's channels.
+    get_channel:
+      method: get
+      path: "/teams/{team-id}/channels/{channel-id}"
+      summary: Get one channel.
+    list_channel_messages:
+      method: get
+      path: "/teams/{team-id}/channels/{channel-id}/messages"
+      summary: List the messages in a channel, newest first, without their replies.
+    send_channel_message:
+      method: post
+      path: "/teams/{team-id}/channels/{channel-id}/messages"
+      summary: Post a new message in a channel.
+    get_channel_message:
+      method: get
+      path: "/teams/{team-id}/channels/{channel-id}/messages/{chatMessage-id}"
+      summary: Get one channel message.
+    list_message_replies:
+      method: get
+      path: "/teams/{team-id}/channels/{channel-id}/messages/{chatMessage-id}/replies"
+      summary: List the replies to a channel message.
+    reply_to_channel_message:
+      method: post
+      path: "/teams/{team-id}/channels/{channel-id}/messages/{chatMessage-id}/replies"
+      summary: Reply to a channel message.
+    list_chats:
+      method: get
+      path: "/me/chats"
+      summary: List the signed-in person's chats.
+    create_chat:
+      method: post
+      path: "/chats"
+      summary: Create a one-on-one or group chat.
+    get_chat:
+      method: get
+      path: "/chats/{chat-id}"
+      summary: Get one chat.
+    list_chat_members:
+      method: get
+      path: "/chats/{chat-id}/members"
+      summary: List a chat's members.
+    list_chat_messages:
+      method: get
+      path: "/chats/{chat-id}/messages"
+      summary: List the messages in a chat.
+    send_chat_message:
+      method: post
+      path: "/chats/{chat-id}/messages"
+      summary: Send a message in a chat.
+    get_chat_message:
+      method: get
+      path: "/chats/{chat-id}/messages/{chatMessage-id}"
+      summary: Get one chat message.
+    create_online_meeting:
+      method: post
+      path: "/me/onlineMeetings"
+      summary: Create an online meeting and get its join link.
+microsoft-onedrive:
+  name: OneDrive
+  title: Microsoft OneDrive
+  about: Browse, share and organize files in the signed-in person's OneDrive through Microsoft Graph.
+  scopes:
+  - Files.ReadWrite.All
+  operations:
+    get_my_drive:
+      method: get
+      path: "/me/drive"
+      summary: Get the signed-in person's OneDrive, including its id.
+    list_drives:
+      method: get
+      path: "/me/drives"
+      summary: List the drives available to the signed-in person.
+    get_drive_root:
+      method: get
+      path: "/drives/{drive-id}/root"
+      summary: Get a drive's root folder.
+    get_item:
+      method: get
+      path: "/drives/{drive-id}/items/{driveItem-id}"
+      summary: Get a file or folder. Use root as the item id for the root folder.
+    update_item:
+      method: patch
+      path: "/drives/{drive-id}/items/{driveItem-id}"
+      summary: Rename or move a file or folder.
+    delete_item:
+      method: delete
+      path: "/drives/{drive-id}/items/{driveItem-id}"
+      summary: Delete a file or folder (moves it to the recycle bin).
+    list_children:
+      method: get
+      path: "/drives/{drive-id}/items/{driveItem-id}/children"
+      summary: List what a folder contains.
+    create_folder:
+      method: post
+      path: "/drives/{drive-id}/items/{driveItem-id}/children"
+      summary: Create a folder inside a folder.
+    download_content:
+      method: get
+      path: "/drives/{drive-id}/items/{driveItem-id}/content"
+      summary: Download a file's content. Only text content comes back through the gateway.
+    copy_item:
+      method: post
+      path: "/drives/{drive-id}/items/{driveItem-id}/copy"
+      summary: Copy a file or folder.
+    create_sharing_link:
+      method: post
+      path: "/drives/{drive-id}/items/{driveItem-id}/createLink"
+      summary: Create a sharing link for a file or folder.
+    share_item:
+      method: post
+      path: "/drives/{drive-id}/items/{driveItem-id}/invite"
+      summary: Share a file or folder with specific people.
+    list_permissions:
+      method: get
+      path: "/drives/{drive-id}/items/{driveItem-id}/permissions"
+      summary: List who a file or folder is shared with.
+    list_versions:
+      method: get
+      path: "/drives/{drive-id}/items/{driveItem-id}/versions"
+      summary: List a file's versions.
+microsoft-excel:
+  name: Excel
+  title: Microsoft Excel
+  about: Read and edit Excel workbooks stored in OneDrive or SharePoint through Microsoft Graph. A workbook is addressed by its drive id and file id.
+  scopes:
+  - Files.ReadWrite.All
+  operations:
+    get_my_drive:
+      method: get
+      path: "/me/drive"
+      summary: Get the signed-in person's OneDrive, including its id.
+    list_worksheets:
+      method: get
+      path: "/drives/{drive-id}/items/{driveItem-id}/workbook/worksheets"
+      summary: List a workbook's worksheets.
+    add_worksheet:
+      method: post
+      path: "/drives/{drive-id}/items/{driveItem-id}/workbook/worksheets"
+      summary: Add a worksheet to a workbook.
+    get_worksheet:
+      method: get
+      path: "/drives/{drive-id}/items/{driveItem-id}/workbook/worksheets/{workbookWorksheet-id}"
+      summary: Get one worksheet. The worksheet name works as the id.
+    read_range:
+      method: get
+      path: "/drives/{drive-id}/items/{driveItem-id}/workbook/worksheets/{workbookWorksheet-id}/range(address='{address}')"
+      summary: 'Read a range of cells, for example A1:C10: values, formulas and number formats.'
+    read_used_range:
+      method: get
+      path: "/drives/{drive-id}/items/{driveItem-id}/workbook/worksheets/{workbookWorksheet-id}/usedRange()"
+      summary: Read the used range of a worksheet.
+    list_tables:
+      method: get
+      path: "/drives/{drive-id}/items/{driveItem-id}/workbook/tables"
+      summary: List a workbook's tables.
+    get_table:
+      method: get
+      path: "/drives/{drive-id}/items/{driveItem-id}/workbook/tables/{workbookTable-id}"
+      summary: Get one table.
+    list_table_rows:
+      method: get
+      path: "/drives/{drive-id}/items/{driveItem-id}/workbook/tables/{workbookTable-id}/rows"
+      summary: List a table's rows.
+    add_table_rows:
+      method: post
+      path: "/drives/{drive-id}/items/{driveItem-id}/workbook/tables/{workbookTable-id}/rows"
+      summary: Add rows to the end of a table.
+    list_table_columns:
+      method: get
+      path: "/drives/{drive-id}/items/{driveItem-id}/workbook/tables/{workbookTable-id}/columns"
+      summary: List a table's columns.
+    read_table_range:
+      method: get
+      path: "/drives/{drive-id}/items/{driveItem-id}/workbook/tables/{workbookTable-id}/range()"
+      summary: Read the whole range of a table, including its header.
+    list_names:
+      method: get
+      path: "/drives/{drive-id}/items/{driveItem-id}/workbook/names"
+      summary: List a workbook's named items.
+    create_session:
+      method: post
+      path: "/drives/{drive-id}/items/{driveItem-id}/workbook/createSession"
+      summary: Start a workbook session so several edits apply together.
+    close_session:
+      method: post
+      path: "/drives/{drive-id}/items/{driveItem-id}/workbook/closeSession"
+      summary: Close a workbook session.
