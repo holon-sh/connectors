@@ -17,3 +17,4 @@ fetch "microsoftgraph/msgraph-metadata/$graph/openapi/v1.0/openapi.yaml" "micros
 fetch "intercom/Intercom-OpenAPI/$intercom/descriptions/2.14/api.intercom.io.yaml" "intercom-$intercom.yaml"
 ruby microsoft/build.rb ".cache/microsoft-graph-$graph.yaml" "$out"
 python3 intercom/build.py ".cache/intercom-$intercom.yaml" "$out/intercom.yaml"
+cp linkedin/linkedin.yaml "$out/linkedin.yaml"

@@ -1,0 +1,180 @@
+# Written from LinkedIn's documentation of Sign In with LinkedIn using OpenID Connect and Share on LinkedIn:
+# https://learn.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/sign-in-with-linkedin-v2
+# https://learn.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/share-on-linkedin
+---
+openapi: 3.0.4
+info:
+  title: LinkedIn
+  version: v2
+  description: Read the signed-in member's LinkedIn profile and post on LinkedIn as them.
+servers:
+- url: https://api.linkedin.com
+security:
+- linkedin:
+  - openid
+  - profile
+  - email
+  - w_member_social
+paths:
+  "/v2/userinfo":
+    get:
+      summary: Get the signed-in member's name, photo, email address and id.
+      description: Get the signed-in member's name, photo, email address and id. The member's person URN, the author
+        of their posts, is "urn:li:person:" followed by sub.
+      operationId: get_profile
+      responses:
+        "200":
+          description: The signed-in member.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/member"
+  "/v2/ugcPosts":
+    post:
+      summary: Publish a post on LinkedIn as the signed-in member, with text and optionally a link.
+      description: Publish a post on LinkedIn as the signed-in member, with text and optionally a link. The post is
+        published at once and its id is returned.
+      operationId: create_post
+      parameters:
+      - "$ref": "#/components/parameters/protocol"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/post"
+      responses:
+        "201":
+          description: The published post.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The post's URN, such as "urn:li:share:7000000000000000000".
+  "/v2/ugcPosts/{post}":
+    delete:
+      summary: Delete a post the signed-in member published.
+      description: Delete a post the signed-in member published.
+      operationId: delete_post
+      parameters:
+      - "$ref": "#/components/parameters/protocol"
+      - name: post
+        in: path
+        required: true
+        description: The post's URN, as create_post returned it.
+        schema:
+          type: string
+      responses:
+        "204":
+          description: The post is deleted.
+components:
+  parameters:
+    protocol:
+      name: X-Restli-Protocol-Version
+      in: header
+      required: true
+      schema:
+        type: string
+        enum:
+        - 2.0.0
+  schemas:
+    member:
+      type: object
+      properties:
+        sub:
+          type: string
+          description: The member's id. Their person URN is "urn:li:person:" followed by this value.
+        name:
+          type: string
+        given_name:
+          type: string
+        family_name:
+          type: string
+        picture:
+          type: string
+        locale: {}
+        email:
+          type: string
+        email_verified:
+          type: boolean
+    text:
+      type: object
+      required:
+      - text
+      properties:
+        text:
+          type: string
+    post:
+      type: object
+      required:
+      - author
+      - lifecycleState
+      - specificContent
+      - visibility
+      properties:
+        author:
+          type: string
+          description: The signed-in member's person URN, "urn:li:person:" followed by sub from get_profile.
+        lifecycleState:
+          type: string
+          enum:
+          - PUBLISHED
+        specificContent:
+          type: object
+          required:
+          - com.linkedin.ugc.ShareContent
+          properties:
+            com.linkedin.ugc.ShareContent:
+              type: object
+              required:
+              - shareCommentary
+              - shareMediaCategory
+              properties:
+                shareCommentary:
+                  description: The post's text.
+                  allOf:
+                  - "$ref": "#/components/schemas/text"
+                shareMediaCategory:
+                  type: string
+                  description: NONE for a text post, ARTICLE for a post with a link.
+                  enum:
+                  - NONE
+                  - ARTICLE
+                media:
+                  type: array
+                  description: The link of an ARTICLE post.
+                  items:
+                    type: object
+                    required:
+                    - status
+                    - originalUrl
+                    properties:
+                      status:
+                        type: string
+                        enum:
+                        - READY
+                      originalUrl:
+                        type: string
+                        description: The link's address.
+                      title:
+                        "$ref": "#/components/schemas/text"
+                      description:
+                        "$ref": "#/components/schemas/text"
+        visibility:
+          type: object
+          required:
+          - com.linkedin.ugc.MemberNetworkVisibility
+          properties:
+            com.linkedin.ugc.MemberNetworkVisibility:
+              type: string
+              description: PUBLIC for anyone on LinkedIn, CONNECTIONS for the member's first-degree connections only.
+              enum:
+              - PUBLIC
+              - CONNECTIONS
+  securitySchemes:
+    linkedin:
+      type: openIdConnect
+      openIdConnectUrl: https://www.linkedin.com/oauth/.well-known/openid-configuration
